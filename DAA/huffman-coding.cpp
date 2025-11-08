@@ -61,3 +61,7 @@ int main(){
     print(pq.top(),"");
     return 0;
 }
+// Reference testcase: 
+// 6
+// a b c d e f
+// 50 10 30 5 3 2 
