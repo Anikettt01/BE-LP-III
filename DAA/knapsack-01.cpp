@@ -1,3 +1,4 @@
+// Author : Aniket Deore
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -35,3 +36,9 @@ int main(){
     cout<<helper(n,capacity,value,weight)<<endl;
     return 0;
 }
+
+// Sample testcase
+// 3
+// 50
+// 120 100 60
+// 10 20 30
