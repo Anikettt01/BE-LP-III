@@ -1,48 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n;
 vector<vector<int>>board;
+int n;
 
-bool check(int actualRow,int actualCol){
-    // int actualRow=row;
-    // int actualCol=col;
-    int col=actualCol-1;
-    int row=actualRow;
-    while(col>=0){
-        if(board[row][col]==1) return false;
-        col--;
+bool check(int row,int col){
+    // previous row
+    int i=row;
+    int j=col-1;
+    while(j>=0){
+        if(board[i][j]==1) return false;
+        j--;
     }
-    row=actualRow-1;
-    col=actualCol-1;
-
-    while(col>=0 && row>=0){
-        if(board[row][col]==1) return false;
-        row--;
-        col--;
+    // prev upper diagonal
+    i=row-1;
+    j=col-1;
+    while(i>=0 && j>=0){
+        if(board[i][j]==1) return false;
+        i--;
+        j--;
     }
-    row=actualRow+1;
-    col=actualCol-1;
-
-    while(col>=0 && row<n){
-        if(board[row][col]==1) return false;
-        row++;
-        col--;
+    // prev lower diagonal
+    i=row+1;
+    j=col-1;
+    while(i<n && j>=0){
+        if(board[i][j]==1) return false;
+        i++;
+        j--;
     }
     return true;
 
 }
 
-bool solve(int col,int placedRow, int placedCol){
+bool helper(int col,int placedRow, int placedCol){
     if(col==n) return true;
     if(col==placedCol){
-        if(check(placedRow,placedCol)) return solve(col+1,placedRow,placedCol);
+        if(check(placedRow,placedCol)) return helper(col+1,placedRow,placedCol);
         else return false;
     }
     for(int row=0;row<n;row++){
         if(check(row,col)){
             board[row][col]=1;
-            if(solve(col+1,placedRow,placedCol)) return true;
+            if(helper(col+1,placedRow,placedCol)) return true;
             board[row][col]=0;
         }
     }
@@ -50,22 +49,21 @@ bool solve(int col,int placedRow, int placedCol){
 }
 
 int main(){
-    cout<<"Enter the value of n: ";
+    cout<<"Enter board size: ";
     cin>>n;
 
-    board.assign(n,vector<int>(n,0));
-
     int r,c;
-    cout<<"Enter the row and col number of first queen: ";
+    cout<<"Enter first queen's row and col: ";
     cin>>r>>c;
 
     r--;
     c--;
-
+    
+    board.assign(n,vector<int>(n,0));
     board[r][c]=1;
 
-    if(solve(0,r,c)){
-        cout<<"N-Queen Solution: "<<endl;
+    if(helper(0,r,c)){
+        cout<<"Found Answer Successfully"<<endl;
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(board[i][j]==1) cout<<"Q ";
@@ -75,6 +73,17 @@ int main(){
         }
     }
     else{
-        cout<<"No solution exists"<<endl;
+        cout<<"No Solution found"<<endl; 
     }
+    return 0;
 }
+// reference possible answer
+// 0 1 0 0
+// 0 0 0 1
+// 1 0 0 0
+// 0 0 1 0
+
+// 0 0 1 0
+// 1 0 0 0
+// 0 0 0 1
+// 0 1 0 0
