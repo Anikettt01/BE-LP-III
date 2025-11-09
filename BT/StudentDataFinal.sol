@@ -23,6 +23,4 @@ contract StudentDataFinal{
         Student memory s = students[index];
         return (s.id,s.name,s.age,s.course);
     }
-
-
 }
